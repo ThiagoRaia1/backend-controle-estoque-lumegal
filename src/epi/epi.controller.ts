@@ -1,7 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { EpiService } from './epi.service';
 import { CreateEpiDto } from './dto/create-epi.dto';
-import { UpdateEpiDto } from './dto/update-epi.dto';
+import { UpdateQuantidadeEpi } from './dto/updateQuantidadeEpi.dto';
 
 @Controller('epi')
 export class EpiController {
@@ -27,9 +35,12 @@ export class EpiController {
     return this.epiService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateEpiDto: UpdateEpiDto) {
-    return this.epiService.update(+id, updateEpiDto);
+  @Patch('entradaSaida')
+  entradaSaida(
+    @Body()
+    movimentacoes: UpdateQuantidadeEpi[],
+  ) {
+    return this.epiService.entradaSaidaEpi(movimentacoes);
   }
 
   @Delete(':id')
