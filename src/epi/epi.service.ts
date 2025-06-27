@@ -75,7 +75,8 @@ export class EpiService {
     return resultados;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} epi`;
+  async remove(id: string) {
+    await this.epiRepository.delete({ _id: new ObjectId(id) });
+    return { mensagem: 'Item excluído com sucesso.' };
   }
 }

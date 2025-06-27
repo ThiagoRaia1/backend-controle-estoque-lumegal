@@ -43,8 +43,8 @@ export class EpiController {
     return this.epiService.entradaSaidaEpi(movimentacoes);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.epiService.remove(+id);
+  @Delete('excluir/:id')
+  async excluir(@Param('id') id: string) {
+    return this.epiService.remove(id);
   }
 }
