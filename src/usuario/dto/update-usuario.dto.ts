@@ -17,5 +17,9 @@ export class UpdateUsuarioDto extends PartialType(CreateUsuarioDto) {
   
   @IsOptional()
   @IsString()
+  nome?: string;
+  
+  @IsOptional()
+  @IsString()
   tipoAcesso?: string;
 }

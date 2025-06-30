@@ -7,7 +7,7 @@ import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 
 import { InjectRepository } from '@nestjs/typeorm';
-import { ObjectId, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 
 import { Usuario } from './entities/usuario.entity';
 
@@ -70,8 +70,8 @@ export class UsuarioService {
     //return `This action returns all usuarios`;
   }
 
-  findOne(id: string) {
-    return this.usuarioRepository.findOneBy({ _id: new ObjectId(id) });
+  findOne(id: number) {
+    return this.usuarioRepository.findOneBy({ id });
     // return `This action returns a #${id} usuario`;
   }
 
@@ -100,10 +100,10 @@ export class UsuarioService {
       );
     }
 
-    await this.usuarioRepository.update(usuario._id, dadosAtualizacao);
+    await this.usuarioRepository.update(usuario.id, dadosAtualizacao);
 
     const usuarioAtualizado = await this.usuarioRepository.findOne({
-      where: { _id: usuario._id },
+      where: { id: usuario.id },
     });
 
     if (!usuarioAtualizado) {
@@ -116,7 +116,7 @@ export class UsuarioService {
     return usuarioAtualizado
   }
 
-  async remove(id: string) {
+  async remove(id: number) {
     const usuario = await this.findOne(id);
     if (usuario) {
       return this.usuarioRepository.remove(usuario);

@@ -14,9 +14,14 @@ import { CategoriaFornecedorModule } from './categoria-fornecedor/categoria-forn
   imports: [
     ConfigModule.forRoot({ isGlobal: true }), // Carrega as variáveis do .env automaticamente
     TypeOrmModule.forRoot({
-      type: 'mongodb',
-      url: process.env.MONGODB_URL,
+      type: 'postgres',
+      url: process.env.DB_URL,
       synchronize: true, // Não usar true em produção
+      host: 'aws-0-sa-east-1.pooler.supabase.com',
+      port: 6543,
+      database: 'postgres',
+      username: 'postgres.nnssfdbmxrxtlfunvckh',
+      password: process.env.DB_PASS, // A senha do Supabase
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
     }),
     UsuarioModule,

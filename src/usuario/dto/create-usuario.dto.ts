@@ -8,6 +8,10 @@ export class CreateUsuarioDto {
   @IsString()
   @IsNotEmpty({ message: 'Senha é obrigatória' })
   senha: string;
+  
+  @IsString()
+  @IsNotEmpty({ message: 'Nome é obrigatório' })
+  nome: string;
 
   @IsString()
   @IsNotEmpty({ message: 'Tipo de acesso é obrigatório' })

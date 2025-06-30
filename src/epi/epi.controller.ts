@@ -31,8 +31,8 @@ export class EpiController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.epiService.findOne(+id);
+  findOne(@Param('id') id: number) {
+    return this.epiService.findOne(id);
   }
 
   @Patch('entradaSaida')
@@ -44,7 +44,7 @@ export class EpiController {
   }
 
   @Delete('excluir/:id')
-  async excluir(@Param('id') id: string) {
+  async excluir(@Param('id') id: number) {
     return this.epiService.remove(id);
   }
 }

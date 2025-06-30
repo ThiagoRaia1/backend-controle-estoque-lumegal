@@ -3,7 +3,6 @@ import { CreateEpiDto } from './dto/create-epi.dto';
 import { UpdateEpiDto } from './dto/update-epi.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ObjectId } from 'mongodb';
 import { Epi } from './entities/epi.entity';
 import { UpdateQuantidadeEpi } from './dto/updateQuantidadeEpi.dto';
 
@@ -30,18 +29,10 @@ export class EpiService {
   }
 
   async findAllEmFalta(): Promise<Epi[]> {
-    return this.epiRepository.manager.connection
-      .getMongoRepository(Epi)
-      .aggregate([
-        {
-          $match: {
-            $expr: {
-              $lt: ['$quantidade', '$quantidadeParaAviso'],
-            },
-          },
-        },
-      ])
-      .toArray();
+    return this.epiRepository
+      .createQueryBuilder('epi')
+      .where('epi.quantidade < epi.quantidadeParaAviso')
+      .getMany();
   }
 
   findOne(id: number) {
@@ -57,7 +48,7 @@ export class EpiService {
 
     for (const mov of movimentacoes) {
       const epi = await this.epiRepository.findOneBy({
-        _id: new ObjectId(mov._id),
+        id: mov.id,
       });
 
       if (!epi) {
@@ -73,8 +64,8 @@ export class EpiService {
     return resultados;
   }
 
-  async remove(id: string) {
-    await this.epiRepository.delete({ _id: new ObjectId(id) });
+  async remove(id: number) {
+    await this.epiRepository.delete({ id });
     return { mensagem: 'Item excluído com sucesso.' };
   }
 }
