@@ -56,7 +56,6 @@ export class EpiService {
     const resultados: Epi[] = [];
 
     for (const mov of movimentacoes) {
-      console.log(mov.nome);
       const epi = await this.epiRepository.findOneBy({
         _id: new ObjectId(mov._id),
       });
@@ -68,7 +67,6 @@ export class EpiService {
       epi.quantidade += mov.quantidade; // entrada (positivo) ou saída (negativo)
 
       const salvo = await this.epiRepository.save(epi);
-      console.log(salvo);
       resultados.push(salvo);
     }
 

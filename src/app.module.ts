@@ -5,6 +5,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsuarioModule } from './usuario/usuario.module';
 import { EpiModule } from './epi/epi.module';
+import { EntradaSaidaModule } from './entrada-saida/entrada-saida.module';
+import { TipoUnidadeModule } from './tipo-unidade/tipo-unidade.module';
+import { FornecedorModule } from './fornecedor/fornecedor.module';
+import { CategoriaFornecedorModule } from './categoria-fornecedor/categoria-fornecedor.module';
 
 @Module({
   imports: [
@@ -17,6 +21,10 @@ import { EpiModule } from './epi/epi.module';
     }),
     UsuarioModule,
     EpiModule,
+    EntradaSaidaModule,
+    TipoUnidadeModule,
+    FornecedorModule,
+    CategoriaFornecedorModule,
   ],
   controllers: [AppController],
   providers: [AppService],
