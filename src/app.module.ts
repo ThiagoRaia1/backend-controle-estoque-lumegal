@@ -9,6 +9,7 @@ import { EntradaSaidaModule } from './entrada-saida/entrada-saida.module';
 import { TipoUnidadeModule } from './tipo-unidade/tipo-unidade.module';
 import { FornecedorModule } from './fornecedor/fornecedor.module';
 import { CategoriaFornecedorModule } from './categoria-fornecedor/categoria-fornecedor.module';
+import { EnderecoModule } from './endereco/endereco.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { CategoriaFornecedorModule } from './categoria-fornecedor/categoria-forn
     TipoUnidadeModule,
     FornecedorModule,
     CategoriaFornecedorModule,
+    EnderecoModule,
   ],
   controllers: [AppController],
   providers: [AppService],
