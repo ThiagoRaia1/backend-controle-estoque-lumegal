@@ -1,4 +1,10 @@
-import { IsDefined, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import {
+  IsDefined,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class CreateEpiDto {
   @IsString()
@@ -6,10 +12,12 @@ export class CreateEpiDto {
   nome: string;
 
   @IsString()
-  descricao: string = "";
+  @IsOptional()
+  descricao: string = '';
 
   @IsString()
-  certificadoAprovacao: string = "";
+  @IsOptional()
+  certificadoAprovacao: string = '';
 
   @IsNumber()
   @IsDefined({ message: 'Quantidade é obrigatória' })
@@ -19,10 +27,11 @@ export class CreateEpiDto {
   @IsDefined({ message: 'Quantidade para aviso é obrigatória' })
   quantidadeParaAviso: number;
 
-  @IsString()
-  @IsNotEmpty({ message: 'Tipo de unidade é obrigatório' })
-  tipoUnidade: string;
+  @IsNumber()
+  @IsDefined({ message: 'ID do tipo de unidade é obrigatório' })
+  tipoUnidadeId: number;
 
-  @IsString()
-  fornecedor: string = "";
+  @IsOptional()
+  @IsNumber({}, { each: true }) // se quiser aceitar vários fornecedores
+  fornecedores?: number[];
 }

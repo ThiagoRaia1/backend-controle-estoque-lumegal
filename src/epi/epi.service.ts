@@ -1,31 +1,72 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository, In } from 'typeorm';
+
+import { Epi } from './entities/epi.entity';
 import { CreateEpiDto } from './dto/create-epi.dto';
 import { UpdateEpiDto } from './dto/update-epi.dto';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Epi } from './entities/epi.entity';
 import { UpdateQuantidadeEpi } from './dto/updateQuantidadeEpi.dto';
+
+import { TipoUnidade } from '../tipo-unidade/entities/tipo-unidade.entity';
+import { Fornecedor } from '../fornecedor/entities/fornecedor.entity';
 
 @Injectable()
 export class EpiService {
   constructor(
     @InjectRepository(Epi)
     private epiRepository: Repository<Epi>,
+
+    @InjectRepository(TipoUnidade)
+    private tipoUnidadeRepository: Repository<TipoUnidade>,
+
+    @InjectRepository(Fornecedor)
+    private fornecedorRepository: Repository<Fornecedor>,
   ) {}
 
-  /**
-   * Cria um novo EPI
-   * @param createEpiDto - Dados do EPI a ser criado
-   * @returns O EPI criado
-   */
-  create(createEpiDto: CreateEpiDto): Promise<Epi> {
-    const novoEpi = this.epiRepository.create(createEpiDto);
-    return this.epiRepository.save(novoEpi);
+  async create(dto: CreateEpiDto): Promise<Epi> {
+    const tipoUnidade = await this.tipoUnidadeRepository.findOneBy({
+      id: dto.tipoUnidadeId,
+    });
+
+    if (!tipoUnidade) {
+      throw new NotFoundException('Tipo de unidade não encontrado');
+    }
+
+    // Verificar duplicidade de nome
+    const epiComMesmoNome = await this.epiRepository.findOne({
+      where: { nome: dto.nome },
+    });
+
+    if (epiComMesmoNome) {
+      throw new ConflictException('Já existe um EPI com esse nome.');
+    }
+
+    const fornecedores = dto.fornecedores?.length
+      ? await this.fornecedorRepository.findBy({ id: In(dto.fornecedores) })
+      : [];
+
+    const novoEpi = this.epiRepository.create({
+      nome: dto.nome,
+      descricao: dto.descricao,
+      certificadoAprovacao: dto.certificadoAprovacao,
+      quantidade: dto.quantidade,
+      quantidadeParaAviso: dto.quantidadeParaAviso,
+      tipoUnidade,
+      fornecedores,
+    });
+
+    const salvo = await this.epiRepository.save(novoEpi);
+    return salvo;
   }
 
-  findAll() {
-    return this.epiRepository.find();
-    // return `This action returns all epi`;
+  async findAll(): Promise<Epi[]> {
+    return this.epiRepository.find({
+      relations: ['tipoUnidade', 'fornecedores'],
+    });
   }
 
   async findAllEmFalta(): Promise<Epi[]> {
@@ -35,12 +76,48 @@ export class EpiService {
       .getMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} epi`;
+  async findOne(id: number): Promise<Epi> {
+    const epi = await this.epiRepository.findOne({
+      where: { id },
+      relations: ['tipoUnidade', 'fornecedores'],
+    });
+
+    if (!epi) {
+      throw new NotFoundException('EPI não encontrado');
+    }
+
+    return epi;
   }
 
-  update(id: number, updateEpiDto: UpdateEpiDto) {
-    return `This action updates a #${id} epi`;
+  async update(id: number, dto: UpdateEpiDto): Promise<Epi> {
+    const epi = await this.findOne(id);
+
+    if (dto.nome) epi.nome = dto.nome;
+    if (dto.descricao) epi.descricao = dto.descricao;
+    if (dto.certificadoAprovacao)
+      epi.certificadoAprovacao = dto.certificadoAprovacao;
+    if (dto.quantidade !== undefined) epi.quantidade = dto.quantidade;
+    if (dto.quantidadeParaAviso !== undefined)
+      epi.quantidadeParaAviso = dto.quantidadeParaAviso;
+
+    if (dto.tipoUnidadeId) {
+      const tipoUnidade = await this.tipoUnidadeRepository.findOneBy({
+        id: dto.tipoUnidadeId,
+      });
+      if (!tipoUnidade) {
+        throw new NotFoundException('Tipo de unidade não encontrado');
+      }
+      epi.tipoUnidade = tipoUnidade;
+    }
+
+    if (dto.fornecedores) {
+      const fornecedores = await this.fornecedorRepository.findBy({
+        id: In(dto.fornecedores),
+      });
+      epi.fornecedores = fornecedores;
+    }
+
+    return this.epiRepository.save(epi);
   }
 
   async entradaSaidaEpi(movimentacoes: UpdateQuantidadeEpi[]): Promise<Epi[]> {
@@ -51,12 +128,9 @@ export class EpiService {
         id: mov.id,
       });
 
-      if (!epi) {
-        continue;
-      }
+      if (!epi) continue;
 
-      epi.quantidade += mov.quantidade; // entrada (positivo) ou saída (negativo)
-
+      epi.quantidade += mov.quantidade;
       const salvo = await this.epiRepository.save(epi);
       resultados.push(salvo);
     }

@@ -1,12 +1,20 @@
 import { Fornecedor } from 'src/fornecedor/entities/fornecedor.entity';
-import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { TipoUnidade } from 'src/tipo-unidade/entities/tipo-unidade.entity';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Epi {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ unique: true })
   nome: string;
 
   @Column()
@@ -21,10 +29,13 @@ export class Epi {
   @Column()
   quantidadeParaAviso: number;
 
-  @Column()
-  tipoUnidade: string;
+  @ManyToOne(() => TipoUnidade, (tipoUnidade) => tipoUnidade.epis, {
+    eager: true, // opcional: traz o tipoUnidade junto no find
+    nullable: false, // obrigatório
+  })
+  tipoUnidade: TipoUnidade;
 
   @ManyToMany(() => Fornecedor, (fornecedor) => fornecedor.epis)
-  @JoinTable() // <-- SOMENTE aqui no lado "dono" da relação
+  @JoinTable()
   fornecedores: Fornecedor[];
 }
