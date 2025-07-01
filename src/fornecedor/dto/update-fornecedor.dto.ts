@@ -4,8 +4,9 @@ import { IsNumber, IsString } from 'class-validator';
 
 export class UpdateFornecedorDto extends PartialType(CreateFornecedorDto) {
   @IsString()
-  nome: string;
+  nome?: string;
 
-  @IsNumber()
-  categoriaFornecedor: number[];
+  enderecos?: number[];
+
+  categoriasFornecedor?: number[];
 }

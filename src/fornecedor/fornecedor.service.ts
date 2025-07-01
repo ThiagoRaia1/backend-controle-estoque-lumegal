@@ -35,6 +35,10 @@ export class FornecedorService {
       id: In(dto.categoriasFornecedor),
     });
 
+    if (!enderecos.length) {
+      throw new NotFoundException('Nenhum endereco encontrado');
+    }
+
     if (!categorias.length) {
       throw new NotFoundException('Nenhuma categoria de fornecedor encontrada');
     }
@@ -94,6 +98,9 @@ export class FornecedorService {
       const enderecos = await this.enderecoRepository.findBy({
         id: In(dto.enderecos),
       });
+      if (!enderecos.length) {
+        throw new NotFoundException('Enderecos não encontrados');
+      }
       fornecedor.enderecos = enderecos;
     }
 
@@ -102,7 +109,7 @@ export class FornecedorService {
         id: In(dto.categoriasFornecedor),
       });
       if (!categorias.length) {
-        throw new NotFoundException('Categorias do fornecedor não encontradas');
+        throw new NotFoundException('Categorias não encontradas');
       }
       fornecedor.categoriasFornecedor = categorias;
     }
@@ -114,7 +121,7 @@ export class FornecedorService {
       fornecedor.epis = epis;
     }
 
-    return this.fornecedorRepository.save(fornecedor);
+    return await this.fornecedorRepository.save(fornecedor);
   }
 
   async remove(id: number): Promise<void> {
