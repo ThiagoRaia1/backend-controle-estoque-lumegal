@@ -17,9 +17,10 @@ export class CreateFornecedorDto {
   @IsNumber({}, { each: true })
   enderecos: number[];
 
-  @IsNumber()
-  @IsNotEmpty({ message: 'A categoria do fornecedor é obrigatória' })
-  categoriaFornecedorId: number;
+  @IsArray()
+  @ArrayNotEmpty({ message: 'Pelo menos uma categoria é obrigatória' })
+  @IsNumber({}, { each: true })
+  categoriasFornecedor: number[];
 
   @IsOptional()
   @IsArray()

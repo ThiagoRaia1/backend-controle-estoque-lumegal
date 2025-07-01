@@ -2,7 +2,6 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  ManyToOne,
   ManyToMany,
   JoinTable,
 } from 'typeorm';
@@ -25,9 +24,9 @@ export class Fornecedor {
   @ManyToMany(() => Epi, (epi) => epi.fornecedores)
   epis: Epi[];
 
-  @ManyToOne(() => CategoriaFornecedor, (categoria) => categoria.fornecedores, {
-    eager: true, // opcional: já traz a categoria junto no find
-    nullable: false, // ou true se quiser permitir fornecedor sem categoria
+  @ManyToMany(() => CategoriaFornecedor, (categoria) => categoria.fornecedores, {
+    eager: true, // carrega automaticamente as categorias
   })
-  categoriaFornecedor: CategoriaFornecedor;
+  @JoinTable() // <- lado dono da relação
+  categoriasFornecedor: CategoriaFornecedor[];
 }

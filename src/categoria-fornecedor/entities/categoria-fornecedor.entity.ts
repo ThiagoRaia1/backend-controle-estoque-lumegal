@@ -1,5 +1,5 @@
 import { Fornecedor } from 'src/fornecedor/entities/fornecedor.entity';
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany } from 'typeorm';
 
 @Entity()
 export class CategoriaFornecedor {
@@ -9,6 +9,6 @@ export class CategoriaFornecedor {
   @Column({ unique: true })
   categoria: string;
 
-  @OneToMany(() => Fornecedor, (fornecedor) => fornecedor.categoriaFornecedor)
+  @ManyToMany(() => Fornecedor, (fornecedor) => fornecedor.categoriasFornecedor)
   fornecedores: Fornecedor[];
 }

@@ -31,12 +31,12 @@ export class FornecedorService {
       id: In(dto.enderecos),
     });
 
-    const categoria = await this.categoriaRepository.findOneBy({
-      id: dto.categoriaFornecedorId,
+    const categorias = await this.categoriaRepository.findBy({
+      id: In(dto.categoriasFornecedor),
     });
 
-    if (!categoria) {
-      throw new NotFoundException('Categoria não encontrada');
+    if (!categorias.length) {
+      throw new NotFoundException('Nenhuma categoria de fornecedor encontrada');
     }
 
     const epis = dto.epis?.length
@@ -46,7 +46,7 @@ export class FornecedorService {
     const fornecedor = this.fornecedorRepository.create({
       nome: dto.nome,
       enderecos,
-      categoriaFornecedor: categoria,
+      categoriasFornecedor: categorias,
       epis,
     });
 
@@ -54,7 +54,7 @@ export class FornecedorService {
 
     const fornecedorCompleto = await this.fornecedorRepository.findOne({
       where: { id: fornecedorSalvo.id },
-      relations: ['enderecos', 'categoriaFornecedor', 'epis'],
+      relations: ['enderecos', 'categoriasFornecedor', 'epis'],
     });
 
     if (!fornecedorCompleto) {
@@ -66,14 +66,14 @@ export class FornecedorService {
 
   async findAll(): Promise<Fornecedor[]> {
     return this.fornecedorRepository.find({
-      relations: ['enderecos', 'categoriaFornecedor', 'epis'],
+      relations: ['enderecos', 'categoriasFornecedor', 'epis'],
     });
   }
 
   async findOne(id: number): Promise<Fornecedor> {
     const fornecedor = await this.fornecedorRepository.findOne({
       where: { id },
-      relations: ['enderecos', 'categoriaFornecedor', 'epis'],
+      relations: ['enderecos', 'categoriasFornecedor', 'epis'],
     });
 
     if (!fornecedor) {
@@ -97,14 +97,14 @@ export class FornecedorService {
       fornecedor.enderecos = enderecos;
     }
 
-    if (dto.categoriaFornecedorId) {
-      const categoria = await this.categoriaRepository.findOneBy({
-        id: dto.categoriaFornecedorId,
+    if (dto.categoriasFornecedor) {
+      const categorias = await this.categoriaRepository.findBy({
+        id: In(dto.categoriasFornecedor),
       });
-      if (!categoria) {
-        throw new NotFoundException('Categoria do fornecedor não encontrada');
+      if (!categorias.length) {
+        throw new NotFoundException('Categorias do fornecedor não encontradas');
       }
-      fornecedor.categoriaFornecedor = categoria;
+      fornecedor.categoriasFornecedor = categorias;
     }
 
     if (dto.epis) {

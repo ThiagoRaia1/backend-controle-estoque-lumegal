@@ -7,5 +7,5 @@ export class UpdateFornecedorDto extends PartialType(CreateFornecedorDto) {
   nome: string;
 
   @IsNumber()
-  categoriaFornecedor: number;
+  categoriaFornecedor: number[];
 }
