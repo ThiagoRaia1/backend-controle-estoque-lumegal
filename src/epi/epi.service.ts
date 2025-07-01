@@ -28,6 +28,9 @@ export class EpiService {
   ) {}
 
   async create(dto: CreateEpiDto): Promise<Epi> {
+    console.log("epi service create")
+    console.log(dto)
+
     const tipoUnidade = await this.tipoUnidadeRepository.findOneBy({
       id: dto.tipoUnidadeId,
     });
@@ -70,8 +73,9 @@ export class EpiService {
   }
 
   async findAllEmFalta(): Promise<Epi[]> {
-    return this.epiRepository
+    return await this.epiRepository
       .createQueryBuilder('epi')
+      .leftJoinAndSelect('epi.tipoUnidade', 'tipoUnidade')
       .where('epi.quantidade < epi.quantidadeParaAviso')
       .getMany();
   }

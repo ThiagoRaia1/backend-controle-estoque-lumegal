@@ -28,7 +28,7 @@ export class CreateEpiDto {
   quantidadeParaAviso: number;
 
   @IsNumber()
-  @IsDefined({ message: 'ID do tipo de unidade é obrigatório' })
+  @IsDefined({ message: 'Tipo de unidade é obrigatório' })
   tipoUnidadeId: number;
 
   @IsOptional()

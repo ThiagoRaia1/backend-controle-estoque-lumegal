@@ -17,7 +17,9 @@ export class TipoUnidadeService {
     private tipoUnidadeRepository: Repository<TipoUnidade>,
   ) {}
 
-  async create(createTipoUnidadeDto: CreateTipoUnidadeDto): Promise<TipoUnidade> {
+  async create(
+    createTipoUnidadeDto: CreateTipoUnidadeDto,
+  ): Promise<TipoUnidade> {
     try {
       const existente = await this.tipoUnidadeRepository.findOne({
         where: { tipo: createTipoUnidadeDto.tipo },
@@ -29,7 +31,7 @@ export class TipoUnidadeService {
 
       const nova = this.tipoUnidadeRepository.create(createTipoUnidadeDto);
       const salvo = await this.tipoUnidadeRepository.save(nova);
-      return salvo
+      return salvo;
     } catch (error) {
       if (error.code === '23505') {
         // Código de erro de duplicidade no Postgres
@@ -51,6 +53,16 @@ export class TipoUnidadeService {
     }
 
     return tipo;
+  }
+
+  async findOnePorTipo(tipo: string): Promise<TipoUnidade> {
+    const tipoEncontrado = await this.tipoUnidadeRepository.findOneBy({ tipo });
+
+    if (!tipoEncontrado) {
+      throw new NotFoundException('Tipo de unidade não encontrado');
+    }
+
+    return tipoEncontrado;
   }
 
   async update(id: number, dto: UpdateTipoUnidadeDto): Promise<TipoUnidade> {

@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { TipoUnidadeService } from './tipo-unidade.service';
 import { CreateTipoUnidadeDto } from './dto/create-tipo-unidade.dto';
 import { UpdateTipoUnidadeDto } from './dto/update-tipo-unidade.dto';
@@ -22,8 +30,16 @@ export class TipoUnidadeController {
     return this.tipoUnidadeService.findOne(+id);
   }
 
+  @Get('tipo/:tipo')
+  findOnePorTipo(@Param('tipo') tipo: string) {
+    return this.tipoUnidadeService.findOnePorTipo(tipo);
+  }
+
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTipoUnidadeDto: UpdateTipoUnidadeDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateTipoUnidadeDto: UpdateTipoUnidadeDto,
+  ) {
     return this.tipoUnidadeService.update(+id, updateTipoUnidadeDto);
   }
 
