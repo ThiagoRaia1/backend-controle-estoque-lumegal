@@ -10,6 +10,7 @@ import {
 import { EpiService } from './epi.service';
 import { CreateEpiDto } from './dto/create-epi.dto';
 import { UpdateQuantidadeEpi } from './dto/updateQuantidadeEpi.dto';
+import { UpdateEpiDto } from './dto/update-epi.dto';
 
 @Controller('epi')
 export class EpiController {
@@ -33,6 +34,14 @@ export class EpiController {
   @Get(':id')
   findOne(@Param('id') id: number) {
     return this.epiService.findOne(id);
+  }
+
+  @Patch(':nomeParaEditarEpi')
+  update(
+    @Body() updateEpiDto: UpdateEpiDto,
+    @Param('nomeParaEditarEpi') nomeParaEditarEpi: string,
+  ) {
+    return this.epiService.update(nomeParaEditarEpi, updateEpiDto);
   }
 
   @Patch('entradaSaida')

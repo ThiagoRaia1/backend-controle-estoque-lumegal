@@ -28,9 +28,6 @@ export class EpiService {
   ) {}
 
   async create(dto: CreateEpiDto): Promise<Epi> {
-    console.log("epi service create")
-    console.log(dto)
-
     const tipoUnidade = await this.tipoUnidadeRepository.findOneBy({
       id: dto.tipoUnidadeId,
     });
@@ -93,9 +90,22 @@ export class EpiService {
     return epi;
   }
 
-  async update(id: number, dto: UpdateEpiDto): Promise<Epi> {
-    const epi = await this.findOne(id);
+  async findOnePorNome(nome: string): Promise<Epi> {
+    const epi = await this.epiRepository.findOne({
+      where: { nome },
+      relations: ['tipoUnidade', 'fornecedores'],
+    });
 
+    if (!epi) {
+      throw new NotFoundException('EPI não encontrado');
+    }
+
+    return epi;
+  }
+
+  async update(nomeParaEditarEpi: string, dto: UpdateEpiDto): Promise<Epi> {
+    const epi = await this.findOnePorNome(nomeParaEditarEpi);
+    Object.assign(epi, dto);
     if (dto.nome) epi.nome = dto.nome;
     if (dto.descricao) epi.descricao = dto.descricao;
     if (dto.certificadoAprovacao)
