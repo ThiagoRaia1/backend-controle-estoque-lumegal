@@ -34,7 +34,7 @@ export class EpiController {
     return this.epiService.findAllEmFalta();
   }
 
-  @Get(':id')
+  @Get('findOne/:id')
   findOne(@Param('id') id: number) {
     console.log("findOne")
     return this.epiService.findOne(id);
@@ -54,7 +54,7 @@ export class EpiController {
     @Body()
     movimentacoes: UpdateQuantidadeEpi[],
   ) {
-    console.log("entradaSaida")
+    console.log('Registrando movimentação ' + new Date());
     return this.epiService.entradaSaidaEpi(movimentacoes);
   }
 

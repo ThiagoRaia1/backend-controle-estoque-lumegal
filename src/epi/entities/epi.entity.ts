@@ -1,3 +1,4 @@
+import { EntradaSaida } from 'src/entrada-saida/entities/entrada-saida.entity';
 import { Fornecedor } from 'src/fornecedor/entities/fornecedor.entity';
 import { TipoUnidade } from 'src/tipo-unidade/entities/tipo-unidade.entity';
 import {
@@ -6,6 +7,7 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -38,4 +40,7 @@ export class Epi {
   @ManyToMany(() => Fornecedor, (fornecedor) => fornecedor.epis)
   @JoinTable()
   fornecedores: Fornecedor[];
+
+  @OneToMany(() => EntradaSaida, (entradaSaida) => entradaSaida.epi)
+  entradasSaidas: EntradaSaida[];
 }

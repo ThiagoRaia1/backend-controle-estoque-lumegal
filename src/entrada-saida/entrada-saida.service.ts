@@ -1,11 +1,27 @@
 import { Injectable } from '@nestjs/common';
 import { CreateEntradaSaidaDto } from './dto/create-entrada-saida.dto';
 import { UpdateEntradaSaidaDto } from './dto/update-entrada-saida.dto';
+import { EntradaSaida } from './entities/entrada-saida.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class EntradaSaidaService {
-  create(createEntradaSaidaDto: CreateEntradaSaidaDto) {
-    return 'This action adds a new entradaSaida';
+  constructor(
+    @InjectRepository(EntradaSaida)
+    private entradaSaidaRepository: Repository<EntradaSaida>,
+  ) {}
+
+  async create(createEntradaSaidaDto: CreateEntradaSaidaDto[]) {
+    const horario = new Date();
+    const dadosComData = createEntradaSaidaDto.map((item) => ({
+      ...item,
+      data: horario, // sobrescreve ou define a data
+      epi: { id: item.idEpi },
+    }));
+
+    const salvos = await this.entradaSaidaRepository.save(dadosComData);
+    return salvos;
   }
 
   findAll() {

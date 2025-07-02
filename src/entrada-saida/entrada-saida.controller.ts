@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { EntradaSaidaService } from './entrada-saida.service';
 import { CreateEntradaSaidaDto } from './dto/create-entrada-saida.dto';
 import { UpdateEntradaSaidaDto } from './dto/update-entrada-saida.dto';
@@ -8,7 +16,8 @@ export class EntradaSaidaController {
   constructor(private readonly entradaSaidaService: EntradaSaidaService) {}
 
   @Post()
-  create(@Body() createEntradaSaidaDto: CreateEntradaSaidaDto) {
+  create(@Body() createEntradaSaidaDto: CreateEntradaSaidaDto[]) {
+    console.log('Criando registro de entregaSaida ' + new Date());
     return this.entradaSaidaService.create(createEntradaSaidaDto);
   }
 
@@ -23,7 +32,10 @@ export class EntradaSaidaController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateEntradaSaidaDto: UpdateEntradaSaidaDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateEntradaSaidaDto: UpdateEntradaSaidaDto,
+  ) {
     return this.entradaSaidaService.update(+id, updateEntradaSaidaDto);
   }
 
