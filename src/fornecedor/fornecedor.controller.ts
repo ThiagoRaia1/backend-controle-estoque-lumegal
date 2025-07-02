@@ -30,6 +30,11 @@ export class FornecedorController {
     return this.fornecedorService.findOne(+id);
   }
 
+  @Get('nome/:nome')
+  findOnePorNome(@Param('nome') nome: string) {
+    return this.fornecedorService.findOnePorNome(nome);
+  }
+
   @Patch(':id')
   update(
     @Param('id') id: string,

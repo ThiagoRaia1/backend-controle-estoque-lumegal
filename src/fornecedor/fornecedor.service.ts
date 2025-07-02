@@ -87,6 +87,19 @@ export class FornecedorService {
     return fornecedor;
   }
 
+  async findOnePorNome(nome: string): Promise<Fornecedor> {
+    const fornecedor = await this.fornecedorRepository.findOne({
+      where: { nome },
+      relations: ['enderecos', 'categoriasFornecedor', 'epis'],
+    });
+
+    if (!fornecedor) {
+      throw new NotFoundException('Fornecedor não encontrado');
+    }
+
+    return fornecedor;
+  }
+
   async update(id: number, dto: UpdateFornecedorDto): Promise<Fornecedor> {
     const fornecedor = await this.findOne(id);
 
