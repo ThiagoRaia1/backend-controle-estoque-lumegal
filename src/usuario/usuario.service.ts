@@ -22,24 +22,18 @@ export class UsuarioService {
     private usuarioRepository: Repository<Usuario>,
   ) {}
 
-  async autenticar(
-    login: string,
-    senha: string,
-  ): Promise<Usuario> {
+  async autenticar(login: string, senha: string): Promise<Usuario> {
     const usuario = await this.usuarioRepository.findOneBy({ login });
 
-    if (!usuario) {
-      throw new NotFoundException('Usuário não encontrado');
+    if (usuario) {
+      const senhaCorreta = await bcrypt.compare(senha, usuario.senha);
+      if (senhaCorreta) {
+        console.log('Usuário autenticado com sucesso:', usuario);
+        return usuario;
+      }
     }
 
-    const senhaCorreta = await bcrypt.compare(senha, usuario.senha);
-    if (!senhaCorreta) {
-      throw new UnauthorizedException('Credenciais inválidas');
-    }
-
-    console.log('Usuário autenticado com sucesso:', usuario);
-
-    return usuario;
+    throw new UnauthorizedException('Usuário ou senha incorretos.');
   }
 
   // Cria o usuário com hash na senha
@@ -113,7 +107,7 @@ export class UsuarioService {
     }
 
     console.log('Usuário atualizado com sucesso:', usuarioAtualizado);
-    return usuarioAtualizado
+    return usuarioAtualizado;
   }
 
   async remove(id: number) {
