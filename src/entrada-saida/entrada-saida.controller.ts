@@ -26,6 +26,19 @@ export class EntradaSaidaController {
     return this.entradaSaidaService.findAll();
   }
 
+  @Get(':dataInicial/:dataFinal')
+  findRelatorio(
+    @Param('dataInicial') dataInicial: string,
+    @Param('dataFinal') dataFinal: string,
+  ) {
+    console.log("entrega-saida/:dataInicial/:dataFinal")
+    const inicio = new Date(dataInicial)
+    const fim = new Date(dataFinal)
+    console.log(inicio)
+    console.log(fim)
+    return this.entradaSaidaService.findRelatorio(inicio, fim);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.entradaSaidaService.findOne(+id);

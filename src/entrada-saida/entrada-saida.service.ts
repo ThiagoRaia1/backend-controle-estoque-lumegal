@@ -3,7 +3,7 @@ import { CreateEntradaSaidaDto } from './dto/create-entrada-saida.dto';
 import { UpdateEntradaSaidaDto } from './dto/update-entrada-saida.dto';
 import { EntradaSaida } from './entities/entrada-saida.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Between, Repository } from 'typeorm';
 
 @Injectable()
 export class EntradaSaidaService {
@@ -26,6 +26,21 @@ export class EntradaSaidaService {
 
   findAll() {
     return `This action returns all entradaSaida`;
+  }
+
+  async findRelatorio(
+    dataInicial: Date,
+    dataFinal: Date,
+  ): Promise<EntradaSaida[]> {
+    return await this.entradaSaidaRepository.find({
+      where: {
+        data: Between(dataInicial, dataFinal),
+      },
+      relations: ['epi'], // Inclui o EPI relacionado (se quiser no resultado)
+      order: {
+        data: 'ASC',
+      },
+    });
   }
 
   findOne(id: number) {
