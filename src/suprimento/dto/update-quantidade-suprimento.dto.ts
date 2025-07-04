@@ -1,11 +1,13 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { CreateEpiDto } from './create-epi.dto';
+import { CreateSuprimentoDto } from './create-suprimento.dto';
 import { IsNumber } from 'class-validator';
 
-export class UpdateQuantidadeEpi extends PartialType(CreateEpiDto) {
+export class UpdateQuantidadeSuprimentoDto extends PartialType(
+  CreateSuprimentoDto,
+) {
   @IsNumber()
   id: number;
-  
+
   @IsNumber()
   quantidade: number;
 }

@@ -9,7 +9,7 @@ import { Repository, In } from 'typeorm';
 import { Epi } from './entities/epi.entity';
 import { CreateEpiDto } from './dto/create-epi.dto';
 import { UpdateEpiDto } from './dto/update-epi.dto';
-import { UpdateQuantidadeEpi } from './dto/updateQuantidadeEpi.dto';
+import { UpdateQuantidadeEpiDto } from './dto/update-quantidade-epi.dto';
 
 import { TipoUnidade } from '../tipo-unidade/entities/tipo-unidade.entity';
 import { Fornecedor } from '../fornecedor/entities/fornecedor.entity';
@@ -134,7 +134,7 @@ export class EpiService {
     return this.epiRepository.save(epi);
   }
 
-  async entradaSaidaEpi(movimentacoes: UpdateQuantidadeEpi[]): Promise<Epi[]> {
+  async entradaSaidaEpi(movimentacoes: UpdateQuantidadeEpiDto[]): Promise<Epi[]> {
     const resultados: Epi[] = [];
 
     for (const mov of movimentacoes) {

@@ -10,6 +10,7 @@ import { TipoUnidadeModule } from './tipo-unidade/tipo-unidade.module';
 import { FornecedorModule } from './fornecedor/fornecedor.module';
 import { CategoriaFornecedorModule } from './categoria-fornecedor/categoria-fornecedor.module';
 import { EnderecoModule } from './endereco/endereco.module';
+import { SuprimentoModule } from './suprimento/suprimento.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { EnderecoModule } from './endereco/endereco.module';
     FornecedorModule,
     CategoriaFornecedorModule,
     EnderecoModule,
+    SuprimentoModule,
   ],
   controllers: [AppController],
   providers: [AppService],

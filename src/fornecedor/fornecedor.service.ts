@@ -9,6 +9,7 @@ import { UpdateFornecedorDto } from './dto/update-fornecedor.dto';
 import { Endereco } from '../endereco/entities/endereco.entity';
 import { CategoriaFornecedor } from '../categoria-fornecedor/entities/categoria-fornecedor.entity';
 import { Epi } from '../epi/entities/epi.entity';
+import { Suprimento } from 'src/suprimento/entities/suprimento.entity';
 
 @Injectable()
 export class FornecedorService {
@@ -24,6 +25,9 @@ export class FornecedorService {
 
     @InjectRepository(Epi)
     private epiRepository: Repository<Epi>,
+
+    @InjectRepository(Suprimento)
+    private suprimentoRepository: Repository<Suprimento>,
   ) {}
 
   async create(dto: CreateFornecedorDto): Promise<Fornecedor> {
@@ -47,18 +51,23 @@ export class FornecedorService {
       ? await this.epiRepository.findBy({ id: In(dto.epis) })
       : [];
 
+    const suprimentos = dto.suprimentos?.length
+      ? await this.epiRepository.findBy({ id: In(dto.suprimentos) })
+      : [];
+
     const fornecedor = this.fornecedorRepository.create({
       nome: dto.nome,
       enderecos,
       categoriasFornecedor: categorias,
       epis,
+      suprimentos,
     });
 
     const fornecedorSalvo = await this.fornecedorRepository.save(fornecedor);
 
     const fornecedorCompleto = await this.fornecedorRepository.findOne({
       where: { id: fornecedorSalvo.id },
-      relations: ['enderecos', 'categoriasFornecedor', 'epis'],
+      relations: ['enderecos', 'categoriasFornecedor', 'epis', 'suprimentos'],
     });
 
     if (!fornecedorCompleto) {
@@ -69,15 +78,15 @@ export class FornecedorService {
   }
 
   async findAll(): Promise<Fornecedor[]> {
-    return this.fornecedorRepository.find({
-      relations: ['enderecos', 'categoriasFornecedor', 'epis'],
+    return await this.fornecedorRepository.find({
+      relations: ['enderecos', 'categoriasFornecedor', 'epis', 'suprimentos'],
     });
   }
 
   async findOne(id: number): Promise<Fornecedor> {
     const fornecedor = await this.fornecedorRepository.findOne({
       where: { id },
-      relations: ['enderecos', 'categoriasFornecedor', 'epis'],
+      relations: ['enderecos', 'categoriasFornecedor', 'epis', 'suprimentos'],
     });
 
     if (!fornecedor) {
@@ -90,7 +99,7 @@ export class FornecedorService {
   async findOnePorNome(nome: string): Promise<Fornecedor> {
     const fornecedor = await this.fornecedorRepository.findOne({
       where: { nome },
-      relations: ['enderecos', 'categoriasFornecedor', 'epis'],
+      relations: ['enderecos', 'categoriasFornecedor', 'epis', 'suprimentos'],
     });
 
     if (!fornecedor) {
@@ -132,6 +141,13 @@ export class FornecedorService {
         id: In(dto.epis),
       });
       fornecedor.epis = epis;
+    }
+
+    if (dto.suprimentos) {
+      const suprimentos = await this.suprimentoRepository.findBy({
+        id: In(dto.suprimentos),
+      });
+      fornecedor.suprimentos = suprimentos;
     }
 
     return await this.fornecedorRepository.save(fornecedor);

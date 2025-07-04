@@ -6,10 +6,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CategoriaFornecedor } from 'src/categoria-fornecedor/entities/categoria-fornecedor.entity';
 import { Endereco } from 'src/endereco/entities/endereco.entity';
 import { Epi } from 'src/epi/entities/epi.entity';
+import { Suprimento } from 'src/suprimento/entities/suprimento.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Fornecedor, Endereco, CategoriaFornecedor, Epi]),
+    TypeOrmModule.forFeature([Fornecedor, Endereco, CategoriaFornecedor, Epi, Suprimento]),
   ],
   controllers: [FornecedorController],
   providers: [FornecedorService],

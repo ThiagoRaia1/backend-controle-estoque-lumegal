@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { EpiService } from './epi.service';
 import { CreateEpiDto } from './dto/create-epi.dto';
-import { UpdateQuantidadeEpi } from './dto/updateQuantidadeEpi.dto';
+import { UpdateQuantidadeEpiDto } from './dto/update-quantidade-epi.dto';
 import { UpdateEpiDto } from './dto/update-epi.dto';
 
 @Controller('epi')
@@ -52,7 +52,7 @@ export class EpiController {
   @Patch('entradaSaida')
   entradaSaida(
     @Body()
-    movimentacoes: UpdateQuantidadeEpi[],
+    movimentacoes: UpdateQuantidadeEpiDto[],
   ) {
     console.log('Registrando movimentação ' + new Date());
     return this.epiService.entradaSaidaEpi(movimentacoes);

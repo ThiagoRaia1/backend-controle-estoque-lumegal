@@ -8,6 +8,7 @@ import {
 import { Epi } from '../../epi/entities/epi.entity';
 import { CategoriaFornecedor } from 'src/categoria-fornecedor/entities/categoria-fornecedor.entity';
 import { Endereco } from 'src/endereco/entities/endereco.entity';
+import { Suprimento } from 'src/suprimento/entities/suprimento.entity';
 
 @Entity()
 export class Fornecedor {
@@ -23,6 +24,9 @@ export class Fornecedor {
 
   @ManyToMany(() => Epi, (epi) => epi.fornecedores)
   epis: Epi[];
+
+  @ManyToMany(() => Suprimento, (suprimento) => suprimento.fornecedores)
+  suprimentos: Suprimento[];
 
   @ManyToMany(() => CategoriaFornecedor, (categoria) => categoria.fornecedores, {
     eager: true, // carrega automaticamente as categorias

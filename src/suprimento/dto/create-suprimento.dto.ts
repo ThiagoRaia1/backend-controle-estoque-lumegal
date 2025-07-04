@@ -1,12 +1,13 @@
 import {
-  IsDefined,
-  IsNotEmpty,
-  IsNumber,
-  IsOptional,
   IsString,
+  IsNotEmpty,
+  IsOptional,
+  IsNumber,
+  IsDefined,
+  IsDecimal,
 } from 'class-validator';
 
-export class CreateEpiDto {
+export class CreateSuprimentoDto {
   @IsString()
   @IsNotEmpty({ message: 'Nome é obrigatório' })
   nome: string;
@@ -15,10 +16,6 @@ export class CreateEpiDto {
   @IsOptional()
   descricao: string = '';
 
-  @IsString()
-  @IsOptional()
-  certificadoAprovacao: string = '';
-
   @IsNumber()
   @IsDefined({ message: 'Quantidade é obrigatória' })
   quantidade: number;
@@ -26,6 +23,9 @@ export class CreateEpiDto {
   @IsNumber()
   @IsDefined({ message: 'Quantidade para aviso é obrigatória' })
   quantidadeParaAviso: number;
+
+  @IsDecimal({ decimal_digits: '2', force_decimal: true })
+  preco: string;
 
   @IsNumber()
   @IsDefined({ message: 'Tipo de unidade é obrigatório' })
