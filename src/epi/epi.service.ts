@@ -57,6 +57,7 @@ export class EpiService {
       quantidadeParaAviso: dto.quantidadeParaAviso,
       tipoUnidade,
       fornecedores,
+      preco: dto.preco
     });
 
     const salvo = await this.epiRepository.save(novoEpi);

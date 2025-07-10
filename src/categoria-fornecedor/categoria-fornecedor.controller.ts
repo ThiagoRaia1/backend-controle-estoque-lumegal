@@ -32,6 +32,11 @@ export class CategoriaFornecedorController {
     return this.categoriaFornecedorService.findOne(+id);
   }
 
+  @Get('categoria/:categoria')
+  findOnePorCategoria(@Param('categoria') categoria: string) {
+    return this.categoriaFornecedorService.findOnePorCategoria(categoria);
+  }
+
   @Patch(':id')
   update(
     @Param('id') id: string,

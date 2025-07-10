@@ -1,7 +1,7 @@
 import {
   ConflictException,
   Injectable,
-  InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 import { CreateCategoriaFornecedorDto } from './dto/create-categoria-fornecedor.dto';
 import { UpdateCategoriaFornecedorDto } from './dto/update-categoria-fornecedor.dto';
@@ -37,11 +37,25 @@ export class CategoriaFornecedorService {
   }
 
   findAll() {
-    return `This action returns all categoriaFornecedor`;
+    return this.categoriaFornecedorRepository.find();
+    //return `This action returns all usuarios`;
   }
 
   findOne(id: number) {
     return `This action returns a #${id} categoriaFornecedor`;
+  }
+
+  async findOnePorCategoria(categoria: string): Promise<CategoriaFornecedor> {
+    const categoriaFornecedor =
+      await this.categoriaFornecedorRepository.findOne({
+        where: { categoria },
+      });
+
+    if (!categoriaFornecedor) {
+      throw new NotFoundException('Categoria não encontrada');
+    }
+
+    return categoriaFornecedor;
   }
 
   update(

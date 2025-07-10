@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateEnderecoDto } from './dto/create-endereco.dto';
 import { UpdateEnderecoDto } from './dto/update-endereco.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -23,11 +23,25 @@ export class EnderecoService {
   }
 
   findAll() {
-    return `This action returns all endereco`;
+    return this.enderecoRepository.find();
+    //return `This action returns all usuarios`;
   }
 
   findOne(id: number) {
     return `This action returns a #${id} endereco`;
+  }
+
+  async findOnePorCidade(cidade: string): Promise<Endereco> {
+    const endereco = await this.enderecoRepository.findOne({
+      where: { cidade },
+      relations: ['fornecedores'],
+    });
+
+    if (!endereco) {
+      throw new NotFoundException('Endereço não encontrado');
+    }
+
+    return endereco;
   }
 
   update(id: number, updateEnderecoDto: UpdateEnderecoDto) {

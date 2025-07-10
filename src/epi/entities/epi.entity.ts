@@ -31,6 +31,9 @@ export class Epi {
   @Column()
   quantidadeParaAviso: number;
 
+  @Column('decimal', { precision: 10, scale: 2 })
+  preco: string;
+
   @ManyToOne(() => TipoUnidade, (tipoUnidade) => tipoUnidade.epis, {
     eager: true, // opcional: traz o tipoUnidade junto no find
     nullable: false, // obrigatório

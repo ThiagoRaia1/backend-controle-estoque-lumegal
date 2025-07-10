@@ -1,4 +1,5 @@
 import {
+  IsDecimal,
   IsDefined,
   IsNotEmpty,
   IsNumber,
@@ -26,6 +27,9 @@ export class CreateEpiDto {
   @IsNumber()
   @IsDefined({ message: 'Quantidade para aviso é obrigatória' })
   quantidadeParaAviso: number;
+
+  @IsDecimal({ decimal_digits: '2', force_decimal: true })
+  preco: string = '';
 
   @IsNumber()
   @IsDefined({ message: 'Tipo de unidade é obrigatório' })
