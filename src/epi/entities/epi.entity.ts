@@ -1,4 +1,5 @@
-import { EntradaSaida } from 'src/entrada-saida/entities/entrada-saida.entity';
+import { EntradaSaidaEpi } from 'src/entrada-saida-epi/entities/entrada-saida-epi.entity';
+import { EntradaSaidaSuprimento } from 'src/entrada-saida-suprimento/entities/entrada-saida-suprimento.entity';
 import { Fornecedor } from 'src/fornecedor/entities/fornecedor.entity';
 import { TipoUnidade } from 'src/tipo-unidade/entities/tipo-unidade.entity';
 import {
@@ -44,6 +45,6 @@ export class Epi {
   @JoinTable()
   fornecedores: Fornecedor[];
 
-  @OneToMany(() => EntradaSaida, (entradaSaida) => entradaSaida.epi)
-  entradasSaidas: EntradaSaida[];
+  @OneToMany(() => EntradaSaidaEpi, (entradaSaidaEpi) => entradaSaidaEpi.epi)
+  entradasSaidasEpi: EntradaSaidaEpi[];
 }

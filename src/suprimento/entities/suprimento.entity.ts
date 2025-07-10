@@ -1,4 +1,4 @@
-import { EntradaSaida } from 'src/entrada-saida/entities/entrada-saida.entity';
+import { EntradaSaidaSuprimento } from 'src/entrada-saida-suprimento/entities/entrada-saida-suprimento.entity';
 import { Fornecedor } from 'src/fornecedor/entities/fornecedor.entity';
 import { TipoUnidade } from 'src/tipo-unidade/entities/tipo-unidade.entity';
 import {
@@ -41,6 +41,9 @@ export class Suprimento {
   @JoinTable()
   fornecedores: Fornecedor[];
 
-  @OneToMany(() => EntradaSaida, (entradaSaida) => entradaSaida.suprimento)
-  entradasSaidas: EntradaSaida[];
+  @OneToMany(
+    () => EntradaSaidaSuprimento,
+    (entradaSaidaSuprimento) => entradaSaidaSuprimento.suprimento,
+  )
+  entradasSaidasSuprimento: EntradaSaidaSuprimento[];
 }

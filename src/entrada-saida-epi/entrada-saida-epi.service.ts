@@ -1,26 +1,26 @@
 import { Injectable } from '@nestjs/common';
-import { CreateEntradaSaidaDto } from './dto/create-entrada-saida.dto';
-import { UpdateEntradaSaidaDto } from './dto/update-entrada-saida.dto';
-import { EntradaSaida } from './entities/entrada-saida.entity';
+import { CreateEntradaSaidaEpiDto } from './dto/create-entrada-saida-epi.dto';
+import { UpdateEntradaSaidaEpiDto } from './dto/update-entrada-saida-epi.dto';
+import { EntradaSaidaEpi } from './entities/entrada-saida-epi.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Between, Repository } from 'typeorm';
 
 @Injectable()
-export class EntradaSaidaService {
+export class EntradaSaidaEpiService {
   constructor(
-    @InjectRepository(EntradaSaida)
-    private entradaSaidaRepository: Repository<EntradaSaida>,
+    @InjectRepository(EntradaSaidaEpi)
+    private entradaSaidaEpiRepository: Repository<EntradaSaidaEpi>,
   ) {}
 
-  async create(createEntradaSaidaDto: CreateEntradaSaidaDto[]) {
+  async create(createEntradaSaidaEpiDto: CreateEntradaSaidaEpiDto[]) {
     const horario = new Date();
-    const dadosComData = createEntradaSaidaDto.map((item) => ({
+    const dadosComData = createEntradaSaidaEpiDto.map((item) => ({
       ...item,
       data: horario, // sobrescreve ou define a data
       epi: { id: item.idEpi },
     }));
 
-    const salvos = await this.entradaSaidaRepository.save(dadosComData);
+    const salvos = await this.entradaSaidaEpiRepository.save(dadosComData);
     return salvos;
   }
 
@@ -31,8 +31,8 @@ export class EntradaSaidaService {
   async findRelatorio(
     dataInicial: Date,
     dataFinal: Date,
-  ): Promise<EntradaSaida[]> {
-    return await this.entradaSaidaRepository.find({
+  ): Promise<EntradaSaidaEpi[]> {
+    return await this.entradaSaidaEpiRepository.find({
       where: {
         data: Between(dataInicial, dataFinal),
       },
@@ -47,7 +47,7 @@ export class EntradaSaidaService {
     return `This action returns a #${id} entradaSaida`;
   }
 
-  update(id: number, updateEntradaSaidaDto: UpdateEntradaSaidaDto) {
+  update(id: number, updateEntradaSaidaEpiDto: UpdateEntradaSaidaEpiDto) {
     return `This action updates a #${id} entradaSaida`;
   }
 

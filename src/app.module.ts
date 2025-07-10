@@ -5,12 +5,13 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsuarioModule } from './usuario/usuario.module';
 import { EpiModule } from './epi/epi.module';
-import { EntradaSaidaModule } from './entrada-saida/entrada-saida.module';
 import { TipoUnidadeModule } from './tipo-unidade/tipo-unidade.module';
 import { FornecedorModule } from './fornecedor/fornecedor.module';
 import { CategoriaFornecedorModule } from './categoria-fornecedor/categoria-fornecedor.module';
 import { EnderecoModule } from './endereco/endereco.module';
 import { SuprimentoModule } from './suprimento/suprimento.module';
+import { EntradaSaidaSuprimentoModule } from './entrada-saida-suprimento/entrada-saida-suprimento.module';
+import { EntradaSaidaEpiModule } from './entrada-saida-epi/entrada-saida-epi.module';
 
 @Module({
   imports: [
@@ -28,12 +29,13 @@ import { SuprimentoModule } from './suprimento/suprimento.module';
     }),
     UsuarioModule,
     EpiModule,
-    EntradaSaidaModule,
+    EntradaSaidaEpiModule,
     TipoUnidadeModule,
     FornecedorModule,
     CategoriaFornecedorModule,
     EnderecoModule,
     SuprimentoModule,
+    EntradaSaidaSuprimentoModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,5 +1,4 @@
 import { Epi } from 'src/epi/entities/epi.entity';
-import { Suprimento } from 'src/suprimento/entities/suprimento.entity';
 import {
   Column,
   Entity,
@@ -9,17 +8,13 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class EntradaSaida {
+export class EntradaSaidaEpi {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => Epi, (epi) => epi.entradasSaidas)
+  @ManyToOne(() => Epi, (epi) => epi.entradasSaidasEpi)
   @JoinColumn({ name: 'idEpi' }) // <-- isso define o nome da coluna
   epi: Epi;
-
-  @ManyToOne(() => Suprimento, (suprimentos) => suprimentos.entradasSaidas)
-  @JoinColumn({ name: 'idSuprimento' }) // <-- isso define o nome da coluna
-  suprimento: Suprimento;
 
   @Column()
   quantidade: number;
