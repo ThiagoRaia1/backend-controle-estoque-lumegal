@@ -29,7 +29,7 @@ export class CreateEpiDto {
   quantidadeParaAviso: number;
 
   @IsDecimal({ decimal_digits: '2', force_decimal: true })
-  preco: string = '';
+  preco: string;
 
   @IsNumber()
   @IsDefined({ message: 'Tipo de unidade é obrigatório' })

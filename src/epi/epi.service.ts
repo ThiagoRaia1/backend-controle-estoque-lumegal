@@ -57,7 +57,7 @@ export class EpiService {
       quantidadeParaAviso: dto.quantidadeParaAviso,
       tipoUnidade,
       fornecedores,
-      preco: dto.preco
+      preco: dto.preco,
     });
 
     const salvo = await this.epiRepository.save(novoEpi);
@@ -114,6 +114,7 @@ export class EpiService {
     if (dto.quantidade !== undefined) epi.quantidade = dto.quantidade;
     if (dto.quantidadeParaAviso !== undefined)
       epi.quantidadeParaAviso = dto.quantidadeParaAviso;
+    if (dto.preco !== undefined) epi.preco = dto.preco;
 
     if (dto.tipoUnidadeId) {
       const tipoUnidade = await this.tipoUnidadeRepository.findOneBy({
@@ -135,7 +136,9 @@ export class EpiService {
     return this.epiRepository.save(epi);
   }
 
-  async entradaSaidaEpi(movimentacoes: UpdateQuantidadeEpiDto[]): Promise<Epi[]> {
+  async entradaSaidaEpi(
+    movimentacoes: UpdateQuantidadeEpiDto[],
+  ): Promise<Epi[]> {
     const resultados: Epi[] = [];
 
     for (const mov of movimentacoes) {
