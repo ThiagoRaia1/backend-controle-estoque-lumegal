@@ -12,6 +12,7 @@ import { EnderecoModule } from './endereco/endereco.module';
 import { SuprimentoModule } from './suprimento/suprimento.module';
 import { EntradaSaidaSuprimentoModule } from './entrada-saida-suprimento/entrada-saida-suprimento.module';
 import { EntradaSaidaEpiModule } from './entrada-saida-epi/entrada-saida-epi.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { EntradaSaidaEpiModule } from './entrada-saida-epi/entrada-saida-epi.mod
     EnderecoModule,
     SuprimentoModule,
     EntradaSaidaSuprimentoModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

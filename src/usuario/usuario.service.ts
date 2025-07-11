@@ -22,30 +22,8 @@ export class UsuarioService {
     private usuarioRepository: Repository<Usuario>,
   ) {}
 
-  async autenticar(login: string, senha: string): Promise<Usuario> {
-    const usuario = await this.usuarioRepository.findOneBy({ login });
-
-    if (usuario) {
-      const senhaCorreta = await bcrypt.compare(senha, usuario.senha);
-      if (senhaCorreta) {
-        console.log('Usuário autenticado com sucesso:', usuario);
-        return usuario;
-      }
-    }
-
-    throw new UnauthorizedException('Usuário ou senha incorretos.');
-  }
-
   // Cria o usuário com hash na senha
   async create(createUsuarioDto: CreateUsuarioDto): Promise<Usuario> {
-    // Verifica se já existe um usuario com o mesmo email
-    const usuarioExistente = await this.usuarioRepository.findOne({
-      where: { login: createUsuarioDto.login },
-    });
-
-    if (usuarioExistente) {
-      throw new Error('Já existe um usuário cadastrado com esse email.');
-    }
 
     // Criptografa a senha
     const hashedSenha = await bcrypt.hash(createUsuarioDto.senha, hashRounds);
@@ -70,7 +48,7 @@ export class UsuarioService {
   }
 
   async findOneByLogin(login: string) {
-    return this.usuarioRepository.findOne({ where: { login } });
+    return this.usuarioRepository.findOneBy({ login });
   }
 
   async updatePorLogin(

@@ -6,21 +6,16 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { UsuarioService } from './usuario.service';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('usuario')
 export class UsuarioController {
   constructor(private readonly usuarioService: UsuarioService) {}
-
-  // Autetica o login
-  @Post('login')
-  async login(@Body() body: { login: string; senha: string }) {
-    const { login, senha } = body;
-    return this.usuarioService.autenticar(login, senha);
-  }
 
   @Post()
   create(@Body() createUsuarioDto: CreateUsuarioDto) {
@@ -28,6 +23,7 @@ export class UsuarioController {
   }
 
   @Get()
+  @UseGuards(AuthGuard)
   findAll() {
     return this.usuarioService.findAll();
   }
@@ -38,11 +34,13 @@ export class UsuarioController {
   // }
 
   @Get(':login')
+  @UseGuards(AuthGuard)
   async findOne(@Param('login') login: string) {
     return await this.usuarioService.findOneByLogin(login);
   }
 
   @Patch(':login')
+  @UseGuards(AuthGuard)
   async atualizarUsuario(
     @Param('login') login: string,
     @Body() updateUsuarioDto: UpdateUsuarioDto,
@@ -51,6 +49,7 @@ export class UsuarioController {
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard)
   remove(@Param('id') id: number) {
     return this.usuarioService.remove(id);
   }
