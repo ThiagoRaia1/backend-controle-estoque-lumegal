@@ -30,7 +30,7 @@ export class AuthService {
       tipoAcesso: usuario.tipoAcesso,
     };
     return {
-      access_token: this.jwtService.sign(payload),
+      token: this.jwtService.sign(payload),
     };
   }
 }
