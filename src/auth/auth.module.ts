@@ -10,7 +10,7 @@ import { AuthGuard } from './auth.guard';
     UsuarioModule,
     JwtModule.register({
       secret: process.env.JWT_SECRET || 'secret', // A chave secreta do JWT
-      signOptions: { expiresIn: '1h' }, // O token expira em 1 hora
+      // signOptions: { expiresIn: '1h' }, // O token expira em 1 hora
     }),
   ],
   controllers: [AuthController],
