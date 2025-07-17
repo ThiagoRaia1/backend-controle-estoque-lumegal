@@ -31,6 +31,9 @@ export class Suprimento {
   @Column('decimal', { precision: 10, scale: 2 })
   preco: string;
 
+  @Column('decimal', { nullable: true })
+  ipi: number;
+
   @ManyToOne(() => TipoUnidade, (tipoUnidade) => tipoUnidade.suprimentos, {
     eager: true, // opcional: traz o tipoUnidade junto no find
     nullable: false, // obrigatório

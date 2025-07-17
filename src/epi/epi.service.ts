@@ -58,6 +58,7 @@ export class EpiService {
       tipoUnidade,
       fornecedores,
       preco: dto.preco,
+      ipi: dto.ipi,
     });
 
     const salvo = await this.epiRepository.save(novoEpi);
@@ -115,7 +116,7 @@ export class EpiService {
     if (dto.quantidadeParaAviso !== undefined)
       epi.quantidadeParaAviso = dto.quantidadeParaAviso;
     if (dto.preco !== undefined) epi.preco = dto.preco;
-
+    if (dto.ipi !== undefined) epi.ipi = dto.ipi;
     if (dto.tipoUnidadeId) {
       const tipoUnidade = await this.tipoUnidadeRepository.findOneBy({
         id: dto.tipoUnidadeId,

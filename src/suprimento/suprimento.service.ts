@@ -55,6 +55,7 @@ export class SuprimentoService {
       quantidade: dto.quantidade,
       quantidadeParaAviso: dto.quantidadeParaAviso,
       preco: dto.preco,
+      ipi: dto.ipi,
       tipoUnidade,
       fornecedores,
     });
@@ -114,9 +115,8 @@ export class SuprimentoService {
     if (dto.quantidade !== undefined) suprimento.quantidade = dto.quantidade;
     if (dto.quantidadeParaAviso !== undefined)
       suprimento.quantidadeParaAviso = dto.quantidadeParaAviso;
-    if (dto.preco !== undefined)
-      suprimento.preco = dto.preco;
-
+    if (dto.preco !== undefined) suprimento.preco = dto.preco;
+    if (dto.ipi !== undefined) suprimento.ipi = dto.ipi;
     if (dto.tipoUnidadeId) {
       const tipoUnidade = await this.tipoUnidadeRepository.findOneBy({
         id: dto.tipoUnidadeId,

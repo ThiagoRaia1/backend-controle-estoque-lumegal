@@ -31,6 +31,10 @@ export class CreateEpiDto {
   @IsDecimal({ decimal_digits: '2', force_decimal: true })
   preco: string;
 
+  @IsOptional()
+  @IsNumber({}, { message: 'IPI deve ser um número' })
+  ipi?: number;
+
   @IsNumber()
   @IsDefined({ message: 'Tipo de unidade é obrigatório' })
   tipoUnidadeId: number;
