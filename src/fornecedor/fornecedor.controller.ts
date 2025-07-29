@@ -35,12 +35,12 @@ export class FornecedorController {
     return this.fornecedorService.findOnePorNome(nome);
   }
 
-  @Patch(':id')
+  @Patch('editar/:nomeOriginal')
   update(
-    @Param('id') id: string,
+    @Param('nomeOriginal') nomeOriginal: string,
     @Body() updateFornecedorDto: UpdateFornecedorDto,
   ) {
-    return this.fornecedorService.update(+id, updateFornecedorDto);
+    return this.fornecedorService.update(nomeOriginal, updateFornecedorDto);
   }
 
   @Delete(':id')

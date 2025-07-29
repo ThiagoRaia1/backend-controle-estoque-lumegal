@@ -20,7 +20,7 @@ import { AuthModule } from './auth/auth.module';
     TypeOrmModule.forRoot({
       type: 'postgres',
       url: process.env.DB_URL,
-      synchronize: true, // Não usar true em produção
+      synchronize: false, // Não usar true em produção
       host: process.env.DB_HOST,
       port: 6543,
       database: process.env.DB_NAME,
