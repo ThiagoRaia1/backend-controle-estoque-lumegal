@@ -1,5 +1,4 @@
 import { EntradaSaidaEpi } from 'src/entrada-saida-epi/entities/entrada-saida-epi.entity';
-import { EntradaSaidaSuprimento } from 'src/entrada-saida-suprimento/entities/entrada-saida-suprimento.entity';
 import { Fornecedor } from 'src/fornecedor/entities/fornecedor.entity';
 import { TipoUnidade } from 'src/tipo-unidade/entities/tipo-unidade.entity';
 import {
