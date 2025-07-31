@@ -17,7 +17,6 @@ export class EntradaSaidaEpiController {
 
   @Post()
   create(@Body() createEntradaSaidaEpiDto: CreateEntradaSaidaEpiDto[]) {
-    console.log('Criando registro de entregaSaida ' + new Date());
     return this.entradaSaidaEpiService.create(createEntradaSaidaEpiDto);
   }
 
@@ -31,11 +30,8 @@ export class EntradaSaidaEpiController {
     @Param('dataInicial') dataInicial: string,
     @Param('dataFinal') dataFinal: string,
   ) {
-    console.log("entrega-saida/:dataInicial/:dataFinal")
     const inicio = new Date(dataInicial)
     const fim = new Date(dataFinal)
-    console.log(inicio)
-    console.log(fim)
     return this.entradaSaidaEpiService.findRelatorio(inicio, fim);
   }
 

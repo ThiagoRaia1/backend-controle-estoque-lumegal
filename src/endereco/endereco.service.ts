@@ -28,7 +28,6 @@ export class EnderecoService {
   }
 
   async findOne(id: number): Promise<Endereco> {
-    console.log("found ya ?")
     const endereco = await this.enderecoRepository.findOneBy({ id });
 
     if (!endereco) {

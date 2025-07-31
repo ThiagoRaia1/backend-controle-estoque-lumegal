@@ -21,7 +21,6 @@ export class EntradaSaidaSuprimentoController {
   create(
     @Body() createEntradaSaidaSuprimentoDto: CreateEntradaSaidaSuprimentoDto[],
   ) {
-    console.log('Criando registro de entregaSaida ' + new Date());
     return this.entradaSaidaSuprimentoService.create(
       createEntradaSaidaSuprimentoDto,
     );
@@ -37,11 +36,8 @@ export class EntradaSaidaSuprimentoController {
     @Param('dataInicial') dataInicial: string,
     @Param('dataFinal') dataFinal: string,
   ) {
-    console.log('entrega-saida/:dataInicial/:dataFinal');
     const inicio = new Date(dataInicial);
     const fim = new Date(dataFinal);
-    console.log(inicio);
-    console.log(fim);
     return this.entradaSaidaSuprimentoService.findRelatorio(inicio, fim);
   }
 

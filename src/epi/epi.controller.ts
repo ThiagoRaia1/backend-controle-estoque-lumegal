@@ -18,25 +18,21 @@ export class EpiController {
 
   @Post()
   create(@Body() createEpiDto: CreateEpiDto) {
-    console.log("create")
     return this.epiService.create(createEpiDto);
   }
 
   @Get()
   findAll() {
-    console.log("findAll")
     return this.epiService.findAll();
   }
 
   @Get('emFalta')
   findAllEmFalta() {
-    console.log("findAllEmFalta")
     return this.epiService.findAllEmFalta();
   }
 
   @Get('findOne/:id')
   findOne(@Param('id') id: number) {
-    console.log("findOne")
     return this.epiService.findOne(id);
   }
 
@@ -45,7 +41,6 @@ export class EpiController {
     @Body() updateEpiDto: UpdateEpiDto,
     @Param('nomeParaEditarEpi') nomeParaEditarEpi: string,
   ) {
-    console.log("editarDados")
     return this.epiService.update(nomeParaEditarEpi, updateEpiDto);
   }
 
@@ -54,13 +49,11 @@ export class EpiController {
     @Body()
     movimentacoes: UpdateQuantidadeEpiDto[],
   ) {
-    console.log('Registrando movimentação ' + new Date());
     return this.epiService.entradaSaidaEpi(movimentacoes);
   }
 
   @Delete('excluir/:id')
   async excluir(@Param('id') id: number) {
-    console.log("excluir")
     return this.epiService.remove(id);
   }
 }

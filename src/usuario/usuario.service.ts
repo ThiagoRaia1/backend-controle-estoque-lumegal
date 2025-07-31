@@ -24,7 +24,6 @@ export class UsuarioService {
 
   // Cria o usuário com hash na senha
   async create(createUsuarioDto: CreateUsuarioDto): Promise<Usuario> {
-
     // Criptografa a senha
     const hashedSenha = await bcrypt.hash(createUsuarioDto.senha, hashRounds);
 
@@ -84,7 +83,6 @@ export class UsuarioService {
       );
     }
 
-    console.log('Usuário atualizado com sucesso:', usuarioAtualizado);
     return usuarioAtualizado;
   }
 
