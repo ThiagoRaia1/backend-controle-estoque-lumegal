@@ -109,8 +109,11 @@ export class FornecedorService {
     return fornecedor;
   }
 
-  async update(id: number, dto: UpdateFornecedorDto): Promise<Fornecedor> {
-    const fornecedor = await this.findOne(id);
+  async update(
+    nomeOriginal: string,
+    dto: UpdateFornecedorDto,
+  ): Promise<Fornecedor> {
+    const fornecedor = await this.findOnePorNome(nomeOriginal);
 
     if (dto.nome) {
       fornecedor.nome = dto.nome;

@@ -29,13 +29,13 @@ export class EnderecoController {
   findOne(@Param('id') id: string) {
     return this.enderecoService.findOne(+id);
   }
-  
+
   @Get('cidade/:cidade')
   findOnePorCidade(@Param('cidade') cidade: string) {
     return this.enderecoService.findOnePorCidade(cidade);
   }
 
-  @Patch(':id')
+  @Patch('editar/:id')
   update(
     @Param('id') id: string,
     @Body() updateEnderecoDto: UpdateEnderecoDto,

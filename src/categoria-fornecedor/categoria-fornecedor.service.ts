@@ -41,8 +41,15 @@ export class CategoriaFornecedorService {
     //return `This action returns all usuarios`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} categoriaFornecedor`;
+  async findOne(id: number): Promise<CategoriaFornecedor> {
+    const categoriaFornecedor =
+      await this.categoriaFornecedorRepository.findOneBy({ id });
+
+    if (!categoriaFornecedor) {
+      throw new NotFoundException('Categoria de fornecedor não encontrada');
+    }
+
+    return categoriaFornecedor;
   }
 
   async findOnePorCategoria(categoria: string): Promise<CategoriaFornecedor> {
@@ -58,11 +65,20 @@ export class CategoriaFornecedorService {
     return categoriaFornecedor;
   }
 
-  update(
+  async update(
     id: number,
-    updateCategoriaFornecedorDto: UpdateCategoriaFornecedorDto,
-  ) {
-    return `This action updates a #${id} categoriaFornecedor`;
+    dto: UpdateCategoriaFornecedorDto,
+  ): Promise<CategoriaFornecedor> {
+    const categoriaFornecedor: CategoriaFornecedor = await this.findOne(id);
+
+    if (!categoriaFornecedor) {
+      throw new NotFoundException('Categoria não encontrada');
+    }
+
+    categoriaFornecedor.categoria =
+      dto.categoria ?? categoriaFornecedor.categoria;
+
+    return this.categoriaFornecedorRepository.save(categoriaFornecedor);
   }
 
   remove(id: number) {

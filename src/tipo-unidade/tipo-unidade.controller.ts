@@ -35,7 +35,7 @@ export class TipoUnidadeController {
     return this.tipoUnidadeService.findOnePorTipo(tipo);
   }
 
-  @Patch(':id')
+  @Patch('editar/:id')
   update(
     @Param('id') id: string,
     @Body() updateTipoUnidadeDto: UpdateTipoUnidadeDto,

@@ -37,7 +37,7 @@ export class CategoriaFornecedorController {
     return this.categoriaFornecedorService.findOnePorCategoria(categoria);
   }
 
-  @Patch(':id')
+  @Patch('editar/:id')
   update(
     @Param('id') id: string,
     @Body() updateCategoriaFornecedorDto: UpdateCategoriaFornecedorDto,

@@ -27,8 +27,14 @@ export class EnderecoService {
     //return `This action returns all usuarios`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} endereco`;
+  async findOne(id: number): Promise<Endereco> {
+    const endereco = await this.enderecoRepository.findOneBy({ id });
+
+    if (!endereco) {
+      throw new NotFoundException('Endereço não encontrado');
+    }
+
+    return endereco;
   }
 
   async findOnePorCidade(cidade: string): Promise<Endereco> {
@@ -44,8 +50,12 @@ export class EnderecoService {
     return endereco;
   }
 
-  update(id: number, updateEnderecoDto: UpdateEnderecoDto) {
-    return `This action updates a #${id} endereco`;
+  async update(id: number, dto: UpdateEnderecoDto): Promise<Endereco> {
+    const endereco = await this.findOne(id);
+
+    endereco.cidade = dto.cidade ?? endereco.cidade;
+
+    return this.enderecoRepository.save(endereco);
   }
 
   remove(id: number) {
